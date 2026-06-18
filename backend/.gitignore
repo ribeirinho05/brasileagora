@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+cache/
+logs/
+bot.lock
+healthcheck.json
+*.tmp

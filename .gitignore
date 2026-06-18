@@ -1,0 +1,10 @@
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+backend/cache/
+backend/logs/
+backend/bot.lock
+backend/healthcheck.json
+backend/*.tmp
+node_modules/
+.vercel/
