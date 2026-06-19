@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://brasileagora.com.br/sitemap.xml
+Sitemap: https://brasilagoraa.com.br/sitemap.xml
