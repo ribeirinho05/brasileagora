@@ -262,6 +262,7 @@
 
     function initNav() {
         document.querySelectorAll('.nav-cat').forEach(function(link) {
+            if (!link.getAttribute('data-category')) return;
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelectorAll('.nav-cat').forEach(function(l){l.classList.remove('active')});
