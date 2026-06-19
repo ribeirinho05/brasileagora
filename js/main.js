@@ -51,10 +51,29 @@
         if (top.length < 5) top = news.slice(0, 5);
         var cats = typeof CATEGORIAS !== 'undefined' ? CATEGORIAS : {};
         var items = top.slice(0, 5);
+        // Slide fixo da reportagem especial
+        var repSlide = document.createElement('div');
+        repSlide.className = 'hero-slide active hero-slide-rep';
+        repSlide.innerHTML = '<div class="hero-rep-split">' +
+            '<div class="hero-rep-left"><img src="img/computador-quantico.webp" alt="Computador Quântico"></div>' +
+            '<div class="hero-rep-right"><img src="img/rafael-reportagem.png" alt="Rafael Erasmo de Oliveira Assis"></div>' +
+            '<div class="hero-rep-overlay">' +
+            '<span class="hero-slide-badge" style="background:#1B4332;color:#F4C430">Reportagem Especial</span>' +
+            '<h2 class="hero-slide-title">Empresário paranaense radicado em Sinop desenvolve método inédito para computadores quânticos</h2>' +
+            '<span class="hero-slide-meta">Redação Brasil Agora &bull; Reportagem</span>' +
+            '</div></div>';
+        repSlide.style.cursor = 'pointer';
+        repSlide.addEventListener('click', function() { window.location.href = 'reportagem-quantagropharma.html'; });
+        container.appendChild(repSlide);
+        var repDot = document.createElement('span');
+        repDot.className = 'hero-dot active';
+        repDot.setAttribute('data-index', 0);
+        dotsEl.appendChild(repDot);
+
         items.forEach(function(n, i) {
             var ci = cats[n.categoria] || {nome: n.categoria};
             var slide = document.createElement('div');
-            slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+            slide.className = 'hero-slide';
             slide.setAttribute('data-id', n.id);
             slide.innerHTML = '<img src="' + n.imagem + '" alt="" loading="lazy">' +
                 '<div class="hero-slide-overlay">' +
@@ -66,8 +85,8 @@
             slide.addEventListener('click', function() { window.location.href = 'noticia.html?id=' + n.id; });
             container.appendChild(slide);
             var dot = document.createElement('span');
-            dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('data-index', i);
+            dot.className = 'hero-dot';
+            dot.setAttribute('data-index', i + 1);
             dotsEl.appendChild(dot);
         });
         var cur = 0, slides = container.querySelectorAll('.hero-slide'), dots = dotsEl.querySelectorAll('.hero-dot');
@@ -76,7 +95,11 @@
         var prev = document.getElementById('hero-prev'), next = document.getElementById('hero-next');
         if (prev) prev.addEventListener('click', function() { goTo((cur - 1 + slides.length) % slides.length); });
         if (next) next.addEventListener('click', function() { goTo((cur + 1) % slides.length); });
-        setInterval(function() { goTo((cur + 1) % slides.length); }, 6000);
+        function autoNext() {
+            var delay = cur === 0 ? 10000 : 6000;
+            setTimeout(function() { goTo((cur + 1) % slides.length); autoNext(); }, delay);
+        }
+        autoNext();
     }
 
     function initTicker() {
@@ -114,7 +137,15 @@
         if (curTab === 'mais-lidas') filtered = filtered.slice().sort(function(){return 0.5-Math.random()});
         var show = filtered.slice(0, page * perPage);
         var cats = typeof CATEGORIAS !== 'undefined' ? CATEGORIAS : {};
-        el.innerHTML = show.map(function(n) {
+        var repCard = curCat === 'todas' ? '<div class="card-h card-h-rep" onclick="window.location.href=\'reportagem-quantagropharma.html\'">' +
+            '<div class="card-h-img"><img src="img/rafael-reportagem.png" alt="Rafael Erasmo de Oliveira Assis" loading="lazy">' +
+            '<span class="card-h-badge" style="background:#1B4332;color:#F4C430">Reportagem Especial</span></div>' +
+            '<div class="card-h-body">' +
+            '<div class="card-h-title">Empresário paranaense radicado em Sinop desenvolve método inédito para computadores quânticos</div>' +
+            '<div class="card-h-excerpt">Rafael Erasmo de Oliveira Assis, 29 anos, criou método proprietário de simulação molecular quântica com aplicações no agronegócio e na indústria farmacêutica.</div>' +
+            '<div class="card-h-meta"><span class="author">Redação Brasil Agora</span><span>Reportagem</span></div>' +
+            '</div></div>' : '';
+        el.innerHTML = repCard + show.map(function(n) {
             var ci = cats[n.categoria] || {nome: n.categoria};
             return '<div class="card-h" data-id="' + n.id + '">' +
                 '<div class="card-h-img"><img src="' + n.imagem + '" alt="" loading="lazy">' +
@@ -129,6 +160,7 @@
         var lb = document.getElementById('load-more');
         if (lb) lb.style.display = show.length < filtered.length ? 'block' : 'none';
         el.querySelectorAll('.card-h').forEach(function(c) {
+            if (c.classList.contains('card-h-rep')) return;
             c.addEventListener('click', function(e) {
                 if (e.target.closest('.card-h-share')) return;
                 window.location.href = 'noticia.html?id=' + this.getAttribute('data-id');

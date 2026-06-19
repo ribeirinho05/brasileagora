@@ -18,31 +18,29 @@
         .rep-hero {
             position: relative;
             width: 100%;
-            min-height: 72vh;
-            background: linear-gradient(155deg, #1B4332 0%, #0B2618 50%, #081C11 100%);
+            height: 480px;
             display: flex;
-            align-items: flex-end;
             overflow: hidden;
         }
-        .rep-hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('https://images.pexels.com/photos/7108344/pexels-photo-7108344.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover no-repeat;
-            opacity: 0.13;
+        .rep-hero-left {
+            width: 50%; height: 100%; overflow: hidden;
         }
-        .rep-hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 55%;
-            background: linear-gradient(transparent, rgba(8,28,17,0.97));
+        .rep-hero-left img {
+            width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5);
+        }
+        .rep-hero-right {
+            width: 50%; height: 100%; overflow: hidden;
+        }
+        .rep-hero-right img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top center;
         }
         .rep-hero-inner {
-            position: relative;
+            position: absolute;
+            bottom: 0; left: 0; width: 50%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end;
             z-index: 2;
-            max-width: 920px;
-            padding: 60px 40px 60px;
+            padding: 40px;
+            background: linear-gradient(transparent 30%, rgba(8,28,17,0.95));
         }
         .rep-label {
             display: inline-flex;
@@ -62,16 +60,17 @@
         .rep-label .material-icons { font-size: 16px; }
         .rep-hero h1 {
             font-family: var(--font-display, 'Lora');
-            font-size: 2.8rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #fff;
             line-height: 1.15;
-            margin-bottom: 22px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
         .rep-hero-lead {
-            font-size: 1.15rem;
+            font-size: 0.92rem;
             color: rgba(255,255,255,0.6);
-            line-height: 1.8;
+            line-height: 1.7;
             max-width: 700px;
             font-weight: 300;
         }
@@ -350,9 +349,12 @@
         .rep-back:hover { opacity: 0.7; }
 
         @media (max-width: 768px) {
-            .rep-hero { min-height: 55vh; }
-            .rep-hero h1 { font-size: 1.7rem; }
-            .rep-hero-inner { padding: 36px 20px 44px; }
+            .rep-hero { height: 380px; }
+            .rep-hero-left { width: 40%; }
+            .rep-hero-right { width: 60%; }
+            .rep-hero-inner { width: 100%; padding: 20px 16px; }
+            .rep-hero h1 { font-size: 1rem; }
+            .rep-hero-lead { display: none; }
             .rep-numeros { grid-template-columns: repeat(2, 1fr); }
             .rep-destaque { padding: 32px 26px 28px; }
             .rep-destaque blockquote { font-size: 1.1rem; }
@@ -378,6 +380,12 @@
 
     <!-- HERO -->
     <section class="rep-hero">
+        <div class="rep-hero-left">
+            <img src="img/computador-quantico.webp" alt="Computador Quântico">
+        </div>
+        <div class="rep-hero-right">
+            <img src="img/rafael-reportagem.png" alt="Rafael Erasmo de Oliveira Assis">
+        </div>
         <div class="rep-hero-inner">
             <div class="rep-label">
                 <span class="material-icons">workspace_premium</span>
